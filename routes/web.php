@@ -19,3 +19,6 @@ Route::get('/', function () {
 
 // Counter
 Route::view('/counter', 'counter');
+
+// Comment
+Route::view('/comment', 'comment');
