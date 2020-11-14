@@ -3,8 +3,10 @@
         <div class="row">
             <div class="col-6 offset-3">
                 <form wire:submit.prevent="addComment">
+                    @error('newComment') <span class="error text-danger text-small">{{ $message }}</span> @enderror
                     <div class="d-flex">
-                        <input class="form-control mr-2" type="text" wire:model.lazy="body">
+                        {{-- <input class="form-control mr-2" type="text" wire:model.lazy="newComment"> --}}
+                        <input class="form-control mr-2" type="text" wire:model="newComment">
                         <button class="btn btn-primary" type="submit">Add</button>
                     </div>
                 </form>

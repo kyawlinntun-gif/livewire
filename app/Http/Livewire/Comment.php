@@ -10,29 +10,45 @@ class Comment extends Component
 {
     public $comments = [];
 
-    public $body = '';
+    public $newComment = '';
+
+    // Real-time validation
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName, [
+            'newComment' => 'required|max:255'
+        ]);
+    }
 
     public function addComment()
     {
-        if(!$this->body)
-        {
-            return;
-        }
+        // if(!$this->newComment)
+        // {
+        //     return;
+        // }
 
-        array_unshift($this->comments, [
-            'name' => 'Tun Bo',
-            'created_at' => Carbon::now()->diffForHumans(),
-            'body' => $this->body
+        // array_unshift($this->comments, [
+        //     'name' => 'Tun Bo',
+        //     'created_at' => Carbon::now()->diffForHumans(),
+        //     'body' => $this->body
+        // ]);
+
+        $this->validate([
+            'newComment' => 'required|max:255'
         ]);
 
-        $this->body = "";
+        $createdComment = ModelsComment::create(['name' => $this->newComment, 'user_id' => 1]);
+
+        $this->comments->prepend($createdComment);
+
+        $this->newComment = "";
 
     }
 
     public function mount()
     {
-        $initialComment = ModelsComment::all();
-        $this->comments = $initialComment;
+        $this->comments = ModelsComment::latest()->get();
+        
         // dd($initialComment->user());
     }
 
